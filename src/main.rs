@@ -21,9 +21,7 @@ async fn main() {
 }
 
 async fn process(socket: TcpStream) {
-    //let mut buf = [50];
-    //let mut msg = Vec::with_capacity(4096);
-
+    /* Print the message when the client sends a message to the server */
     let mut buf: [u8; 4096] = [0; 4096];
 
     let read_stream = socket.try_read(&mut buf);
@@ -33,6 +31,7 @@ async fn process(socket: TcpStream) {
             println!("Buffer is empty");
         }
         Ok(_size) => {
+            // Concert the buffer to a string
             let msg = match str::from_utf8(&buf) {
                 Ok(v) => v,
                 Err(e) => panic!("Invalid sequence: {}", e),
@@ -45,19 +44,3 @@ async fn process(socket: TcpStream) {
         }
     }
 }
-
-/*
-async fn process_old(socket: TcpStream) {
-    // The `Connection` lets use read/write redis **frames** instead of
-    // bytes streams. The `Connection` type is defined by mini-redis.
-    let mut connection: Connection = Connection::new(socket);
-
-    if let Some(frame) = connection.read_frame().await.unwrap() {
-        println!("GOT: {:?}", frame);
-
-        // Respond with an error
-        let response: Frame = Frame::Error("unimplemented".to_string());
-        connection.write_frame(&response).await.unwrap();
-    }
-}
-*/
