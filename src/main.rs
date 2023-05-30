@@ -20,15 +20,21 @@ async fn main() {
 
 async fn process(socket: TcpStream) {
     //let mut buf = [50];
-    let mut buf = Vec::with_capacity(4096);
+    let mut msg = Vec::with_capacity(4096);
 
-    let read_stream = socket.try_read_buf(&mut buf);
+    let read_stream = socket.try_read_buf(&mut msg);
 
-    if let Ok(size) = read_stream {
-        println!("read {} bytes", size);
-    }
-    else if let Err(_) = read_stream {
-        println!("Error occured");
+    match read_stream {
+        Ok(0) => {
+            println!("Buffer is empty");
+        }
+        Ok(size) => {
+            println!("read {} bytes", size);       
+            println!("{}", msg[0]);
+        }
+        Err(err) => {
+            eprintln!("{}", err);
+        }
     }
 }
 
