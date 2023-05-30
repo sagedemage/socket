@@ -22,6 +22,7 @@ async fn main() {
 
 async fn process(socket: TcpStream) {
     /* Print the message when the client sends a message to the server */
+    // The buffer as an array of 8 bit unsinged integers
     let mut buf: [u8; 4096] = [0; 4096];
 
     let read_stream = socket.try_read(&mut buf);
