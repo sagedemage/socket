@@ -1,6 +1,5 @@
-use std::net::SocketAddr;
-use tokio::net::{TcpListener, TcpStream};
-use mini_redis::{Connection, Frame};
+use std::net::{SocketAddr};
+use tokio::{net::{TcpListener, TcpStream}};
 
 #[tokio::main]
 async fn main() {
@@ -20,6 +19,21 @@ async fn main() {
 }
 
 async fn process(socket: TcpStream) {
+    //let mut buf = [50];
+    let mut buf = Vec::with_capacity(4096);
+
+    let read_stream = socket.try_read_buf(&mut buf);
+
+    if let Ok(size) = read_stream {
+        println!("read {} bytes", size);
+    }
+    else if let Err(_) = read_stream {
+        println!("Error occured");
+    }
+}
+
+/*
+async fn process_old(socket: TcpStream) {
     // The `Connection` lets use read/write redis **frames** instead of
     // bytes streams. The `Connection` type is defined by mini-redis.
     let mut connection: Connection = Connection::new(socket);
@@ -32,3 +46,4 @@ async fn process(socket: TcpStream) {
         connection.write_frame(&response).await.unwrap();
     }
 }
+*/
