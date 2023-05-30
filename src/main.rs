@@ -22,7 +22,7 @@ async fn process(socket: TcpStream) {
     //let mut buf = [50];
     //let mut msg = Vec::with_capacity(4096);
 
-    let mut msg = [0; 4096];
+    let mut msg: [u8; 4096] = [0; 4096];
 
     let read_stream = socket.try_read(&mut msg);
 
