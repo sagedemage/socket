@@ -1,5 +1,7 @@
+use core::panic;
 use std::net::{SocketAddr};
 use tokio::{net::{TcpListener, TcpStream}};
+use std::str;
 
 #[tokio::main]
 async fn main() {
@@ -22,17 +24,21 @@ async fn process(socket: TcpStream) {
     //let mut buf = [50];
     //let mut msg = Vec::with_capacity(4096);
 
-    let mut msg: [u8; 4096] = [0; 4096];
+    let mut buf: [u8; 4096] = [0; 4096];
 
-    let read_stream = socket.try_read(&mut msg);
+    let read_stream = socket.try_read(&mut buf);
 
     match read_stream {
         Ok(0) => {
             println!("Buffer is empty");
         }
-        Ok(size) => {
-            println!("read {} bytes", size);       
-            println!("{}", msg[0]);
+        Ok(_size) => {
+            let msg = match str::from_utf8(&buf) {
+                Ok(v) => v,
+                Err(e) => panic!("Invalid sequence: {}", e),
+            };
+
+            println!("{}", msg);
         }
         Err(err) => {
             eprintln!("{}", err);
