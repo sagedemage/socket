@@ -5,9 +5,6 @@ use std::process;
 
 #[tokio::main]
 async fn main() {
-    // Open a connection to the address
-    let client: Result<TcpStream, Error> = TcpStream::connect("127.0.0.1:6379").await;
-
     // The message as an array of 8 bit unsinged integers
     let mut msg: &[u8] = b"Hello";
     let mut buf = String::new();
@@ -38,10 +35,12 @@ async fn main() {
         let stdin = io::stdin();
         let result = stdin.read_line(&mut buf);
 
+        // remove newline from input
+        buf = buf.replace("\n", "");
+
         match result {
             Ok(_size) => {
                 msg = buf.as_bytes();
-                println!("{}", msg[1]);
             }
             Err(err) => {
                 eprintln!("{}", err);
@@ -49,8 +48,10 @@ async fn main() {
         }
     }
 
+    // Open a connection to the address
+    let client: Result<TcpStream, Error> = TcpStream::connect("127.0.0.1:6379").await;
     
-
+    // Send a message to the server
     match client {
         Ok(stream) => {
             let write_stream = stream.try_write(msg);
