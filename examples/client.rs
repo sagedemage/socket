@@ -48,13 +48,18 @@ async fn main() {
         }
     }
 
-    // Open a connection to the address
+    send_message_to_server(msg).await; 
+}
+
+async fn send_message_to_server(message: &[u8]) {
+    /* Sends a message to the server */
+    // Open a connection to the server's address
     let client: Result<TcpStream, Error> = TcpStream::connect("127.0.0.1:6379").await;
     
     // Send a message to the server
     match client {
         Ok(stream) => {
-            let write_stream = stream.try_write(msg);
+            let write_stream = stream.try_write(message);
             match write_stream {
                 Ok(_size) => {
                     println!("Sent a message to the server.");
