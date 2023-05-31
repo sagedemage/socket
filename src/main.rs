@@ -1,6 +1,7 @@
-use std::net::SocketAddr;
-use tokio::net::{TcpListener, TcpStream};
-use mini_redis::{Connection, Frame};
+use core::panic;
+use std::net::{SocketAddr};
+use tokio::{net::{TcpListener, TcpStream}};
+use std::str;
 
 #[tokio::main]
 async fn main() {
@@ -20,15 +21,27 @@ async fn main() {
 }
 
 async fn process(socket: TcpStream) {
-    // The `Connection` lets use read/write redis **frames** instead of
-    // bytes streams. The `Connection` type is defined by mini-redis.
-    let mut connection: Connection = Connection::new(socket);
+    /* Print the message when the client sends a message to the server */
+    // The buffer as an array of 8 bit unsinged integers
+    let mut buf: [u8; 4096] = [0; 4096];
 
-    if let Some(frame) = connection.read_frame().await.unwrap() {
-        println!("GOT: {:?}", frame);
+    let read_stream = socket.try_read(&mut buf);
 
-        // Respond with an error
-        let response: Frame = Frame::Error("unimplemented".to_string());
-        connection.write_frame(&response).await.unwrap();
+    match read_stream {
+        Ok(0) => {
+            println!("Buffer is empty");
+        }
+        Ok(_size) => {
+            // Concert the buffer to a string
+            let msg = match str::from_utf8(&buf) {
+                Ok(v) => v,
+                Err(e) => panic!("Invalid sequence: {}", e),
+            };
+
+            println!("{}", msg);
+        }
+        Err(err) => {
+            eprintln!("{}", err);
+        }
     }
 }

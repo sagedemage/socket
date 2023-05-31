@@ -1,18 +1,28 @@
-use mini_redis::{client, Result};
-use bytes::Bytes;
+use std::{io::Error};
+use tokio::{net::{TcpStream}};
 
 #[tokio::main]
-async fn main() -> Result<()> {
-    // Open a connection to the mini-redis address
-    let mut client: client::Client = client::connect("127.0.0.1:6379").await?;
+async fn main() {
+    // Open a connection to the address
+    let client: Result<TcpStream, Error> = TcpStream::connect("127.0.0.1:6379").await;
 
-    // Set the key "hello" with value "world"
-    client.set("hello", "world".into()).await?;
+    // The message as an array of 8 bit unsinged integers
+    let msg: &[u8] = b"Hello";
 
-    // Get key "hello"
-    let result: Option<Bytes> = client.get("hello").await?;
-
-    println!("got value from server; result={:?}", result);
-
-    Ok(())
+    match client {
+        Ok(stream) => {
+            let write_stream = stream.try_write(msg);
+            match write_stream {
+                Ok(_size) => {
+                    println!("Sent a message to the server.");
+                }
+                Err(err) => {
+                    eprintln!("{}", err)
+                }
+            }
+        }
+        Err(err) => {
+            eprintln!("{}", err);
+        }
+    }
 }
