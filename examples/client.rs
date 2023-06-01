@@ -1,10 +1,9 @@
-use std::{io::Error};
 use tokio::{net::{TcpStream}};
 use std::{env, io};
 use std::process;
 
 #[tokio::main]
-async fn main() {
+async fn main() -> io::Result<()> {
     // The message as an array of 8 bit unsinged integers
     let mut msg: &[u8] = b"Hello";
     let mut buf = String::new();
@@ -33,44 +32,27 @@ async fn main() {
     else if option == "" {
         println!("Enter message: ");
         let stdin = io::stdin();
-        let result = stdin.read_line(&mut buf);
+        stdin.read_line(&mut buf)?;
 
         // remove newline from input
         buf = buf.replace("\n", "");
 
-        match result {
-            Ok(_size) => {
-                msg = buf.as_bytes();
-            }
-            Err(err) => {
-                eprintln!("{}", err);
-            }
-        }
+        msg = buf.as_bytes();
     }
 
-    send_message_to_server(msg).await; 
+    send_message_to_server(msg).await?;
+
+    Ok(())
 }
 
-async fn send_message_to_server(message: &[u8]) {
+async fn send_message_to_server(message: &[u8]) -> io::Result<()> {
     /* Sends a message to the server */
     // Open a connection to the server's address
-    let client: Result<TcpStream, Error> = TcpStream::connect("127.0.0.1:6379").await;
-    
+    let client: TcpStream = TcpStream::connect("127.0.0.1:6379").await?;
+
     // Send a message to the server
-    match client {
-        Ok(stream) => {
-            let write_stream = stream.try_write(message);
-            match write_stream {
-                Ok(_size) => {
-                    println!("Sent a message to the server.");
-                }
-                Err(err) => {
-                    eprintln!("{}", err)
-                }
-            }
-        }
-        Err(err) => {
-            eprintln!("{}", err);
-        }
-    }
+    client.try_write(message)?;
+    println!("Sent a message to the server.");
+    
+    Ok(())
 }
