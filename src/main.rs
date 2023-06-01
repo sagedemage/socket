@@ -35,11 +35,14 @@ async fn process(socket: TcpStream) {
                 }
                 Ok(_size) => {
                     // Concert the buffer to a string
-                    let msg = match std::str::from_utf8(&buf) {
-                        Ok(v) => v,
-                        Err(e) => panic!("Invalid sequence: {}", e),
+                    match std::str::from_utf8(&buf) {
+                        Ok(msg) => {
+                            println!("{}", msg);
+                        }
+                        Err(err) => {
+                            eprintln!("{}", err);
+                        }
                     };
-                    println!("{}", msg);
                 }
                 Err(err) => {
                     eprintln!("{}", err);
