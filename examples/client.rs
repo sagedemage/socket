@@ -10,41 +10,40 @@ async fn main() -> io::Result<()> {
 
     let args: Vec<String> = env::args().collect();
 
-    let mut option: &String = &String::new();
-    let mut input: &String = &String::new();
+    match args.len() {
+        2 => {
+            eprintln!("Missing input!");
+            process::exit(0);
+        }
+        3 => {
+            let option: &String = &args[1];
+            let input: &String = &args[2];
 
-    if args.len() == 2 {
-        eprintln!("Missing input!");
-        process::exit(0);
-    }
+            if option == "i" {
+                let msg: &[u8] = input.as_bytes();
+                send_message_to_server(msg).await?;
+            }
+            else {
+                eprintln!("Option does not exist!");
+            }
+        }
+        _ => {
+            // Prompt user input
+            print!("Enter message: ");
+            io::stdout().flush()?;
+            io::stdin().read_line(&mut buf)?;
 
-    else if args.len() == 3 {
-        option = &args[1];
-        input = &args[2];
-    }
+            // remove newline from input
+            buf = buf.replace('\n', "");
 
-    if option == "i" {
-        let msg: &[u8] = input.as_bytes();
-        send_message_to_server(msg).await?;
-    }
-
-    else if option.is_empty() {
-        // Prompt user input
-        print!("Enter message: ");
-        io::stdout().flush()?;
-        io::stdin().read_line(&mut buf)?;
-
-        // remove newline from input
-        buf = buf.replace('\n', "");
-
-        if buf.is_empty() {
-            println!("Input is empty!");
-        } else {
-            let msg: &[u8] = buf.as_bytes();
-            send_message_to_server(msg).await?;
+            if buf.is_empty() {
+                println!("Input is empty!");
+            } else {
+                let msg: &[u8] = buf.as_bytes();
+                send_message_to_server(msg).await?;
+            }
         }
     }
-
     Ok(())
 }
 
