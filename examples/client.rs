@@ -1,3 +1,5 @@
+//! Client Program
+
 use tokio::{net::{TcpStream}};
 use std::env;
 use std::io::{self, Write};
@@ -48,7 +50,7 @@ async fn main() -> io::Result<()> {
 }
 
 async fn send_message_to_server(message: &[u8]) -> io::Result<()> {
-    /* Sends a message to the server */
+    //! Sends a message to the server
     // Open a connection to the server's address
     let client: TcpStream = TcpStream::connect("127.0.0.1:6379").await?;
 

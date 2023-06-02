@@ -1,3 +1,5 @@
+//! Server Program
+
 use std::io;
 use tokio::net::{TcpListener, TcpStream};
 
@@ -19,7 +21,7 @@ async fn main() -> io::Result<()> {
 }
 
 async fn process(socket: TcpStream) {
-    /* Print the message when the client sends a message to the server */
+    //! Print the message when the client sends a message to the server
     // The buffer as an array of 8 bit unsinged integers
 
     // Wait for the socket to be readable
