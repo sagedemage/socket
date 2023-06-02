@@ -6,12 +6,12 @@ use std::process;
 #[tokio::main]
 async fn main() -> io::Result<()> {
     // The message as an array of 8 bit unsinged integers
-    let mut buf = String::from("");
+    let mut buf = String::new();
 
     let args: Vec<String> = env::args().collect();
 
-    let mut option: &String = &String::from("");
-    let mut input: &String = &String::from("");
+    let mut option: &String = &String::new();
+    let mut input: &String = &String::new();
 
     if args.len() == 2 {
         eprintln!("Missing input!");
@@ -28,23 +28,20 @@ async fn main() -> io::Result<()> {
         send_message_to_server(msg).await?;
     }
 
-    else if option == "" {
+    else if option.is_empty() {
         // Prompt user input
         print!("Enter message: ");
         io::stdout().flush()?;
         io::stdin().read_line(&mut buf)?;
 
         // remove newline from input
-        buf = buf.replace("\n", "");
+        buf = buf.replace('\n', "");
 
-        match buf.len() {
-            0 => {
-                println!("Input is empty!")
-            }
-            _ => {
-                let msg: &[u8] = buf.as_bytes();
-                send_message_to_server(msg).await?;
-            }
+        if buf.is_empty() {
+            println!("Input is empty!");
+        } else {
+            let msg: &[u8] = buf.as_bytes();
+            send_message_to_server(msg).await?;
         }
     }
 

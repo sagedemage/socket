@@ -37,20 +37,20 @@ async fn process(socket: TcpStream) {
                     // Concert the buffer to a string
                     match std::str::from_utf8(&buf) {
                         Ok(msg) => {
-                            println!("{}", msg);
+                            println!("{msg}");
                         }
                         Err(err) => {
-                            eprintln!("{}", err);
+                            eprintln!("{err}");
                         }
                     };
                 }
                 Err(err) => {
-                    eprintln!("{}", err);
+                    eprintln!("{err}");
                 }
             }
         }
         Err(err) => {
-            eprintln!("{}", err);
+            eprintln!("{err}");
         }
     }
 }
