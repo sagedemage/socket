@@ -22,8 +22,13 @@ async fn main() -> io::Result<()> {
             let input: &String = &args[2];
 
             if option == "i" {
-                let msg: &[u8] = input.as_bytes();
-                send_message_to_server(msg).await?;
+                if input == "" {
+                    eprintln!("Input is empty!");
+                }
+                else {
+                    let msg: &[u8] = input.as_bytes();
+                    send_message_to_server(msg).await?;
+                }
             }
             else {
                 eprintln!("Option does not exist!");
