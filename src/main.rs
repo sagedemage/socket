@@ -5,6 +5,11 @@ use tokio::net::{TcpListener, TcpStream};
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
+    // Notify the user that the server is running
+    // Using 8-16 Hexadecimal Colors
+    println!("\x1b[32m{}\x1b[0m", "Server is running!");
+    println!("\x1b[32m{}\x1b[0m", "------------------");
+
     // Bind the listener to the address
     let listener: TcpListener = TcpListener::bind("127.0.0.1:6379").await?;
 
