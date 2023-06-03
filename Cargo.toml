@@ -2,9 +2,14 @@
 name = "socket_cli"
 version = "0.1.0"
 edition = "2021"
+description = "socket cli program"
+repository = "https://github.com/sagedemage/socket_cli"
+license = "BSD 3-Clause"
+keywords = ["socket", "cli"]
+categories = ["socket", "cli"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = { version = "1", features = ["full"] }
+tokio = { version = "1.28.2", features = ["full"] }
 bytes = "1.4.0"
