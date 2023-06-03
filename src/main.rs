@@ -2,13 +2,16 @@
 
 use std::io;
 use tokio::net::{TcpListener, TcpStream};
+use socket_cli::green_message;
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
     // Notify the user that the server is running
     // Using 8-16 Hexadecimal Colors
-    println!("\x1b[32m{}\x1b[0m", "Server is running!");
-    println!("\x1b[32m{}\x1b[0m", "------------------");
+    let msg1: String = green_message("Server is running!");
+    let msg2: String = green_message("------------------");
+    println!("{msg1}");
+    println!("{msg2}");
 
     // Bind the listener to the address
     let listener: TcpListener = TcpListener::bind("127.0.0.1:6379").await?;
@@ -38,7 +41,7 @@ async fn process(socket: TcpStream) {
             // Try to read the data from the stream
             match socket.try_read(&mut buf) {
                 Ok(0) => {
-                    println!("Buffer is empty");
+                    eprintln!("Buffer is empty!");
                 }
                 Ok(_size) => {
                     // Concert the buffer to a string

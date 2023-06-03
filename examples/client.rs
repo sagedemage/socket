@@ -4,6 +4,7 @@ use tokio::{net::{TcpStream}};
 use std::env;
 use std::io::{self, Write};
 use std::process;
+use socket_cli::{blue_message, red_message};
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
@@ -15,7 +16,8 @@ async fn main() -> io::Result<()> {
     match args.len() {
         1 => {
             // Prompt user input
-            print!("\n\x1b[34m{}\x1b[0m", "Enter a message: ");
+            let msg = blue_message("Enter a message: ");
+            print!("{msg}");
             io::stdout().flush()?;
             io::stdin().read_line(&mut buf)?;
 
@@ -23,7 +25,8 @@ async fn main() -> io::Result<()> {
             buf = buf.replace('\n', "");
 
             if buf.is_empty() {
-                eprintln!("\n\x1b[31m{}\x1b[0m", "Input is empty!");
+                let msg: String = red_message("Input is empty!");
+                eprintln!("{msg}");
             } else {
                 let msg: &[u8] = buf.as_bytes();
                 send_message_to_server(msg).await?;
@@ -32,11 +35,13 @@ async fn main() -> io::Result<()> {
         2 => {
             let option: &String = &args[1];
             if option == "i" {
-                eprintln!("\x1b[31m{}\x1b[0m", "Missing input!");
+                let msg: String = red_message("Missing input!");
+                eprintln!("{msg}");
                 process::exit(0);
             }
             else {
-                eprintln!("\x1b[31m{}\x1b[0m", "Option does not exist!");
+                let msg: String = red_message("Option does not exist!");
+                eprintln!("{msg}");
                 process::exit(0);
             }
         }
@@ -46,7 +51,8 @@ async fn main() -> io::Result<()> {
 
             if option == "i" {
                 if input == "" {
-                    eprintln!("\x1b[31m{}\x1b[0m", "Input is empty!");
+                    let msg: String = red_message("Input is empty!");
+                    eprintln!("{msg}");
                 }
                 else {
                     let msg: &[u8] = input.as_bytes();
@@ -54,7 +60,8 @@ async fn main() -> io::Result<()> {
                 }
             }
             else {
-                eprintln!("\x1b[31m{}\x1b[0m", "Option does not exist!");
+                let msg: String = red_message("Option does not exist!");
+                eprintln!("{msg}");
             }
         }
         _ => {
