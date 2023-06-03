@@ -1,5 +1,5 @@
-# Socket Programming with Tokio
-Learn about socket programming in Rust with the Tokio libary.
+# Socket CLI
+![socket cli](images/socket_cli.webp)
 
 ## Lint the project
 ```
