@@ -1,5 +1,9 @@
-# Socket Programming with Tokio
-Learn about socket programming in Rust with the Tokio libary.
+# Socket CLI
+![socket cli](images/socket_cli.webp)
+
+## Using Input Option
+This uses the input option to specify the message
+![socket cli using input option](images/socket_cli_with_input_option.webp)
 
 ## Lint the project
 ```
