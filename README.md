@@ -3,6 +3,7 @@
 
 ## Using Input Option
 This uses the input option to specify the message
+
 ![socket cli using input option](images/socket_cli_with_input_option.webp)
 
 ## Run the Project
