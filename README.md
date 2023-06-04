@@ -19,6 +19,7 @@ cargo run --example client
 
 OR
 
+Use the input option to specify the message
 ```
 cargo run --example client i Hello
 ```
