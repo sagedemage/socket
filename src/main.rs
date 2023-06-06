@@ -1,29 +1,7 @@
 //! Server Program
-
 use std::io;
 use tokio::net::{TcpListener, TcpStream};
 use socket_cli::green_message;
-
-fn print_logo() {
-    //! Print Logo
-    let end: &str = "\x1b[0m";
-    let black: &str = "\x1b[30m";
-    let white: &str = "\x1b[37m";
-    let yellow: &str = "\x1b[33m";
-    let green: &str = "\x1b[32m";
-
-    println!("{black}HHHHHHHHHHHHHHHHHHHHH{end}");
-    println!("{black}HH{end}{white}IIIIIIIIIIIIIIIII{end}{black}HH{end}");
-    println!("{black}HH{end}{white}IIIIIIIIIIIIIIIII{end}{black}HH{end}");
-    println!("{black}HH{end}{white}III{end} {yellow}|||||||||{end} {white}III{end}{black}HH{end}");
-    println!("{black}HH{end}{white}III{end}           {white}III{end}{black}HH{end}");
-    println!("{black}HH{end}{white}III{end}           {white}III{end}{black}HH{end}");
-    println!("{black}HH{end}{white}III{end}           {white}III{end}{black}HH{end}");
-    println!("{black}HH{end}{white}IIIII{end}       {white}IIIII{end}{black}HH{end}");
-    println!("{black}HH{end}I{yellow}+++{end}{white}II{end}     {white}II{end}{green}+++{end}I{black}HH{end}");
-    println!("{black}HH{end}{white}IIIIIIIIIIIIIIIII{end}{black}HH{end}");
-    println!("{black}HHHHHHHHHHHHHHHHHHHHH{end}");
-}
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
@@ -87,4 +65,25 @@ async fn process(socket: TcpStream) {
             eprintln!("{err}");
         }
     }
+}
+
+fn print_logo() {
+    //! Print Logo
+    let end: &str = "\x1b[0m";
+    let black: &str = "\x1b[30m";
+    let white: &str = "\x1b[37m";
+    let yellow: &str = "\x1b[33m";
+    let green: &str = "\x1b[32m";
+
+    println!("{black}HHHHHHHHHHHHHHHHHHHHH{end}");
+    println!("{black}HH{end}{white}IIIIIIIIIIIIIIIII{end}{black}HH{end}");
+    println!("{black}HH{end}{white}IIIIIIIIIIIIIIIII{end}{black}HH{end}");
+    println!("{black}HH{end}{white}III{end} {yellow}|||||||||{end} {white}III{end}{black}HH{end}");
+    println!("{black}HH{end}{white}III{end}           {white}III{end}{black}HH{end}");
+    println!("{black}HH{end}{white}III{end}           {white}III{end}{black}HH{end}");
+    println!("{black}HH{end}{white}III{end}           {white}III{end}{black}HH{end}");
+    println!("{black}HH{end}{white}IIIII{end}       {white}IIIII{end}{black}HH{end}");
+    println!("{black}HH{end}I{yellow}+++{end}{white}II{end}     {white}II{end}{green}+++{end}I{black}HH{end}");
+    println!("{black}HH{end}{white}IIIIIIIIIIIIIIIII{end}{black}HH{end}");
+    println!("{black}HHHHHHHHHHHHHHHHHHHHH{end}");
 }
