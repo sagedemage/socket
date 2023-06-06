@@ -10,9 +10,10 @@ async fn main() -> io::Result<()> {
     let msg1: String = green_message("Server is running!");
     let msg2: String = green_message("------------------");
     
+    println!("Socket CLI");
+    println!("----------");
     print_logo();
-    println!("");
-    println!("{msg1}");
+    println!("\n{msg1}");
     println!("{msg2}");
 
     // Bind the listener to the address
