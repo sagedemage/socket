@@ -71,7 +71,7 @@ async fn process(socket: TcpStream) {
 fn print_logo() {
     //! Print Logo
     let end: &str = "\x1b[0m";
-    let black: &str = "\x1b[30m";
+    let black: &str = "\x1b[90m";
     let white: &str = "\x1b[37m";
     let yellow: &str = "\x1b[33m";
     let green: &str = "\x1b[32m";
