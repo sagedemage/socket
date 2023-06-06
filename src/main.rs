@@ -5,6 +5,7 @@ use tokio::net::{TcpListener, TcpStream};
 use socket_cli::green_message;
 
 fn print_logo() {
+    //! Print Logo
     let end: &str = "\x1b[0m";
     let black: &str = "\x1b[30m";
     let white: &str = "\x1b[37m";
